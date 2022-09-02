@@ -24,7 +24,19 @@ var (
 )
 
 const (
-// this line is used by starport scaffolding # simapp/module/const
+	opWeightMsgCreateLunar = "op_weight_msg_lunar"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgCreateLunar int = 100
+
+	opWeightMsgUpdateLunar = "op_weight_msg_lunar"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgUpdateLunar int = 100
+
+	opWeightMsgDeleteLunar = "op_weight_msg_lunar"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgDeleteLunar int = 100
+
+	// this line is used by starport scaffolding # simapp/module/const
 )
 
 // GenerateGenesisState creates a randomized GenState of the module
@@ -35,6 +47,16 @@ func (AppModule) GenerateGenesisState(simState *module.SimulationState) {
 	}
 	zodiaticGenesis := types.GenesisState{
 		Params: types.DefaultParams(),
+		LunarList: []types.Lunar{
+			{
+				Creator:  sample.AccAddress(),
+				Yyyymmdd: 0,
+			},
+			{
+				Creator:  sample.AccAddress(),
+				Yyyymmdd: 1,
+			},
+		},
 		// this line is used by starport scaffolding # simapp/module/genesisState
 	}
 	simState.GenState[types.ModuleName] = simState.Cdc.MustMarshalJSON(&zodiaticGenesis)
@@ -57,6 +79,39 @@ func (am AppModule) RegisterStoreDecoder(_ sdk.StoreDecoderRegistry) {}
 // WeightedOperations returns the all the gov module operations with their respective weights.
 func (am AppModule) WeightedOperations(simState module.SimulationState) []simtypes.WeightedOperation {
 	operations := make([]simtypes.WeightedOperation, 0)
+
+	var weightMsgCreateLunar int
+	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgCreateLunar, &weightMsgCreateLunar, nil,
+		func(_ *rand.Rand) {
+			weightMsgCreateLunar = defaultWeightMsgCreateLunar
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgCreateLunar,
+		zodiaticsimulation.SimulateMsgCreateLunar(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
+	var weightMsgUpdateLunar int
+	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgUpdateLunar, &weightMsgUpdateLunar, nil,
+		func(_ *rand.Rand) {
+			weightMsgUpdateLunar = defaultWeightMsgUpdateLunar
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgUpdateLunar,
+		zodiaticsimulation.SimulateMsgUpdateLunar(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
+	var weightMsgDeleteLunar int
+	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgDeleteLunar, &weightMsgDeleteLunar, nil,
+		func(_ *rand.Rand) {
+			weightMsgDeleteLunar = defaultWeightMsgDeleteLunar
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgDeleteLunar,
+		zodiaticsimulation.SimulateMsgDeleteLunar(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
 
 	// this line is used by starport scaffolding # simapp/module/operation
 

@@ -264,8 +264,8 @@ type App struct {
 	// MonitoringKeeper monitoringpkeeper.Keeper
 
 	// make scoped keepers public for test purposes
-	ScopedIBCKeeper        capabilitykeeper.ScopedKeeper
-	ScopedTransferKeeper   capabilitykeeper.ScopedKeeper
+	ScopedIBCKeeper      capabilitykeeper.ScopedKeeper
+	ScopedTransferKeeper capabilitykeeper.ScopedKeeper
 	// ScopedMonitoringKeeper capabilitykeeper.ScopedKeeper
 
 	ZodiaticKeeper zodiaticmodulekeeper.Keeper
@@ -277,7 +277,7 @@ type App struct {
 	mm *module.Manager
 
 	// sm is the simulation manager
-	sm *module.SimulationManager
+	sm           *module.SimulationManager
 	configurator module.Configurator
 }
 

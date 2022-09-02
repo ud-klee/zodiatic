@@ -4,9 +4,15 @@ import { StdFee } from "@cosmjs/launchpad";
 import { SigningStargateClient } from "@cosmjs/stargate";
 import { Registry, OfflineSigner, EncodeObject, DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
 import { Api } from "./rest";
+import { MsgCreateLunar } from "./types/zodiatic/tx";
+import { MsgUpdateLunar } from "./types/zodiatic/tx";
+import { MsgDeleteLunar } from "./types/zodiatic/tx";
 
 
 const types = [
+  ["/zodiatic.zodiatic.zodiatic.MsgCreateLunar", MsgCreateLunar],
+  ["/zodiatic.zodiatic.zodiatic.MsgUpdateLunar", MsgUpdateLunar],
+  ["/zodiatic.zodiatic.zodiatic.MsgDeleteLunar", MsgDeleteLunar],
   
 ];
 export const MissingWalletError = new Error("wallet is required");
@@ -39,6 +45,9 @@ const txClient = async (wallet: OfflineSigner, { addr: addr }: TxClientOptions =
 
   return {
     signAndBroadcast: (msgs: EncodeObject[], { fee, memo }: SignAndBroadcastOptions = {fee: defaultFee, memo: ""}) => client.signAndBroadcast(address, msgs, fee,memo),
+    msgCreateLunar: (data: MsgCreateLunar): EncodeObject => ({ typeUrl: "/zodiatic.zodiatic.zodiatic.MsgCreateLunar", value: MsgCreateLunar.fromPartial( data ) }),
+    msgUpdateLunar: (data: MsgUpdateLunar): EncodeObject => ({ typeUrl: "/zodiatic.zodiatic.zodiatic.MsgUpdateLunar", value: MsgUpdateLunar.fromPartial( data ) }),
+    msgDeleteLunar: (data: MsgDeleteLunar): EncodeObject => ({ typeUrl: "/zodiatic.zodiatic.zodiatic.MsgDeleteLunar", value: MsgDeleteLunar.fromPartial( data ) }),
     
   };
 };

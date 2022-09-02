@@ -1,13 +1,51 @@
 syntax = "proto3";
 package zodiatic.zodiatic.zodiatic;
 
+import "zodiatic/lunar.proto";
 // this line is used by starport scaffolding # proto/tx/import
 
 option go_package = "github.com/zodiatic/zodiatic/x/zodiatic/types";
 
 // Msg defines the Msg service.
 service Msg {
-    // this line is used by starport scaffolding # proto/tx/rpc
+      rpc CreateLunar(MsgCreateLunar) returns (MsgCreateLunarResponse);
+  rpc UpdateLunar(MsgUpdateLunar) returns (MsgUpdateLunarResponse);
+  rpc DeleteLunar(MsgDeleteLunar) returns (MsgDeleteLunarResponse);
+// this line is used by starport scaffolding # proto/tx/rpc
 }
+
+message MsgCreateLunar {
+  string creator = 1;
+  uint64 yyyymmdd = 2;
+
+  string date = 3;
+  repeated uint64 lunarNumber = 4;
+  string lunar = 5;
+  string eightWords = 6;
+  string godDirection = 7;
+  string goodFor = 8;
+  string badFor = 9;
+}
+message MsgCreateLunarResponse {}
+
+message MsgUpdateLunar {
+  string creator = 1;
+  uint64 yyyymmdd = 2;
+
+  string date = 3;
+  repeated uint64 lunarNumber = 4;
+  string lunar = 5;
+  string eightWords = 6;
+  string godDirection = 7;
+  string goodFor = 8;
+  string badFor = 9;
+}
+message MsgUpdateLunarResponse {}
+
+message MsgDeleteLunar {
+  string creator = 1;
+  uint64 yyyymmdd = 2;
+}
+message MsgDeleteLunarResponse {}
 
 // this line is used by starport scaffolding # proto/tx/message

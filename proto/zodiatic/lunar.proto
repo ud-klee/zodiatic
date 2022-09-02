@@ -1,0 +1,17 @@
+syntax = "proto3";
+package zodiatic.zodiatic.zodiatic;
+
+option go_package = "github.com/zodiatic/zodiatic/x/zodiatic/types";
+
+message Lunar {
+  uint64 yyyymmdd = 1; 
+  string date = 2; 
+  repeated uint64 lunarNumber = 3; 
+  string lunar = 4; 
+  string eightWords = 5; 
+  string godDirection = 6; 
+  string goodFor = 7; 
+  string badFor = 8; 
+  string creator = 9;
+}
+
