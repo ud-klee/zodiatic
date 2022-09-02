@@ -94,4 +94,4 @@ install: go.sum
 	go install -mod=readonly $(BUILD_FLAGS) ./cmd/zodiaticd
 
 build:
-	go build $(BUILD_FLAGS) -o bin/yumzeed ./cmd/zodiaticd
+	go build $(BUILD_FLAGS) -o bin/zodiaticd ./cmd/zodiaticd
