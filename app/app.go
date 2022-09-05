@@ -101,9 +101,11 @@ import (
 
 	"github.com/zodiatic/zodiatic/docs"
 
+	zwasm "github.com/zodiatic/zodiatic/app/wasm"
 	zodiaticmodule "github.com/zodiatic/zodiatic/x/zodiatic"
 	zodiaticmodulekeeper "github.com/zodiatic/zodiatic/x/zodiatic/keeper"
 	zodiaticmoduletypes "github.com/zodiatic/zodiatic/x/zodiatic/types"
+
 	// this line is used by starport scaffolding # stargate/app/moduleImport
 	"github.com/CosmWasm/wasmd/x/wasm"
 	wasmclient "github.com/CosmWasm/wasmd/x/wasm/client"
@@ -456,8 +458,9 @@ func New(
 
 	// The last arguments can contain custom message handlers, and custom query handlers,
 	// if we want to allow any custom callbacks
-	supportedFeatures := "iterator,staking,stargate"
+	supportedFeatures := "iterator,staking,stargate,zodiatic"
 	wasmOpts := GetWasmOpts(appOpts)
+	wasmOpts = append(zwasm.RegisterCustomPlugins(&app.ZodiaticKeeper), wasmOpts...)
 	app.wasmKeeper = wasm.NewKeeper(
 		appCodec,
 		keys[wasm.StoreKey],
